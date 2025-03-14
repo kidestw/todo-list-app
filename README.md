@@ -1,4 +1,4 @@
-<h1 align="center">📌 Full-Stack Todo List (Dockerized) 🚀</h1>
+<h1 align="center"> Full-Stack Todo List (Dockerized) </h1>
 
 <p align="center">
   <b>A modern, containerized Todo List app built with React, Node.js, and MongoDB.</b>  
