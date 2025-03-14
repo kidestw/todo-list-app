@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend  # Path to backend Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017
+    networks:
+      - todonet
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: 
+      context: ./frontend  # Path to frontend Dockerfile
+    ports:
+      - "5137:5137"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    networks:
+      - todonet
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  mongodb:
+    image: mongo:6.0  # Use MongoDB latest stable version
+    container_name: fullstack-todo-list-mongodb-1
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    networks:
+      - todonet
+    volumes:
+      - mongo_data:/data/db
+      
+
+
+
+networks:
+  todonet:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local
+
